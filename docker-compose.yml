@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  dc-app:
+    build: ui
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8010:80
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+#    links:
+#      - dc-api:api
+  dc-api:
+    build: api
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8020:4000
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+#    links:
+#      - dc-mongo:mongo
+  dc-mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
